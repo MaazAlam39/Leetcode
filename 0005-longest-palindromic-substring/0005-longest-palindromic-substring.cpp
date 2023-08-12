@@ -1,42 +1,30 @@
-class Solution
-{
+class Solution {
+private: 
+    bool check(string &s, int i, int j){
+        while(i<j){
+            if(s[i] != s[j]){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }            
 public:
-	string longestPalindrome(string s)
-	{
-		int str_len = s.length();
-		if (str_len == 0 || str_len == 1)
-			return s;
-
-		string longest = "";
-		for (int i = 0; i < str_len - 1; i++)
-		{
-			int low_pt = i;
-			int high_pt = i + 1;
-
-			while (low_pt >= 0 && high_pt < str_len)
-			{
-				if (low_pt == i && s[low_pt] == s[high_pt])
-				{
-					high_pt++;
-					continue;
-				}
-
-				if (low_pt > 0 && s[low_pt - 1] == s[high_pt])
-				{
-					low_pt--;
-					high_pt++;
-				}
-
-				else
-					break;
-			}
-
-			string sub = s.substr(low_pt, high_pt - low_pt);
-
-			if (longest.length() < sub.length())
-				longest = sub;
-		}
-
-		return longest;
-	}
-};
+    string longestPalindrome(string s) {
+        int n = s.size();
+        int starting_index = 0;
+        int max_len = 0;
+        for(int i=0; i<n; i++){
+            for(int j=i; j<n; j++){
+                if(check(s, i, j)){
+                    if(j-i+1 > max_len){
+                        max_len = j-i+1;
+                        starting_index = i;
+                    }
+                }
+            }
+        }
+        return s.substr(starting_index, max_len);
+    }
+}; 
